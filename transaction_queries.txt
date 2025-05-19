@@ -1,0 +1,228 @@
+#----------------------
+
+1. Find the average transaction rating for deliveries made by the rider Jillene Morstatt for the year 2021
+
+transaction.aggregate([
+	{'$match': {'$and':[
+        {'rider.name' : 'Jillene Morstatt'},
+     	  {'date_time':{'$regex' : '2021' , '$options' : 'i'}}]}},
+	{'$group': {
+		'_id' : '$rider.name',
+		'AverageRating' : {'$avg' : '$rating'}
+		     }},
+	{'$project':{
+		 'rider_name': '$_id',
+		 'AverageRating' : 1,
+		 '_id' : 0
+	}}
+])
+
+#----------------------
+
+2. Find the total sales of Golden Chan in August of 2021
+
+transaction.aggregate([
+	{'$match': {'$and':[
+        {'restaurant.name' : 'Golden Chan'},
+     	  {'date_time':{'$regex' : '2021-08' , '$options' : 'i'}}]}},
+	{'$group': {
+		'_id' : '$restaurant.name',
+		'TotalSales' : {'$sum' : '$total_price'}
+		     }},
+	{'$project':{
+		 'restaurant_name': '$_id',
+		 'TotalSales' : 1,
+		 '_id' : 0
+	}}
+])
+
+#----------------------
+
+3. Find the type of cuisine that has the most sales in Malabon in the 3rd quarter of the year 2021
+
+transaction.aggregate([
+	{'$match': {'$and':[
+        {'customer.customer_address.city' : 'Malabon'},
+     	  {'$or': [
+		{'date_time': {'$regex' : '2021-07' , '$options' : 'i'}},
+		{'date_time': {'$regex' : '2021-08' , '$options' : 'i'}},
+		{'date_time':{'$regex' : '2021-09' , '$options' : 'i'}}]}]}},
+	{'$group': {
+		'_id' : '$restaurant.cuisine',
+		'TotalSales' : {'$sum' : '$total_price'}
+		     }},
+	{'$project':{
+		 'cuisine_name': '$_id',
+		 'TotalSales' : 1,
+		 '_id' : 0
+	}}
+])
+
+#----------------------
+
+4. Find the number of deliveries done by Shae Webb-Bowen in Makati
+
+transaction.aggregate([
+	{'$match': {'$and':[
+        {'rider.name' : 'Shae Webb-Bowen'},
+     	  {'customer.customer_address.city' : 'Makati'}]}},
+	{'$group': {
+		'_id' : '$rider.name',
+		'TotalDeliveries' : {'$sum' : 1}
+		     }},
+	{'$project':{
+		 'rider_name': '$_id',
+		 'TotalDeliveries' : 1,
+		 '_id' : 0
+	}}
+])
+
+#----------------------
+
+5. Find the top 50 customers in terms of the number of transactions made in the 4th quarter of the year 2020
+
+db.transaction.aggregate( [
+   {'$match' :
+       { '$or' : [
+           {'date_time' : {'$regex' : '2020-10' , '$options' : 'i'}},
+           {'date_time' : {'$regex' : '2020-11' , '$options' : 'i'}},
+           {'date_time' : {'$regex' : '2020-12' , '$options' : 'i'}}
+       ]}
+   },
+   {'$group' :
+       {
+           '_id' : '$customer',
+           'number_of_transactions' : {'$sum' : 1}
+       }
+   },
+   {'$project' :
+       {
+           '_id' : 0,
+           'customer' : '$_id',
+           'number_of_transactions' :  1
+       }
+   },
+   {'$sort' :
+       {
+           'number_of_transactions' :  -1
+       }
+   },
+   {'$limit' : 50}
+] )
+
+#----------------------
+
+6. Find the top 5 riders who made the most deliveries for the restaurant Godimento in the year 2020
+
+db.transaction.aggregate( [
+   {'$match' :
+       { '$and' : [
+           {'restaurant.name' : 'Godimento'},
+           {'date_time' : {'$regex' : '2020' , '$options' : 'i'}}
+       ]}
+   },
+   {'$group' :
+       {
+           '_id' : '$rider',
+           'number_of_deliveries' : {'$sum' : 1}
+       }
+   },
+   {'$project' :
+       {
+           '_id' : 0,
+           'rider' : '$_id',
+           'number_of_deliveries' :  1
+       }
+   },
+   {'$sort' :
+       {
+           'number_of_deliveries' :  -1
+       }
+   },
+   {'$limit' : 5}
+] )
+
+#----------------------
+
+7. Find the 3 most used payment methods by users in Taguig
+
+db.transaction.aggregate( [
+   {'$match' :
+       {'customer.customer_address.city' : 'Taguig'}
+   },
+   {'$group' :
+       {
+           '_id' : '$payment_method',
+           'number_of_times_used' : {'$sum' : 1}
+       }
+   },
+   {'$project' :
+       {
+           '_id' : 0,
+           'payment_method' : '$_id',
+           'number_of_times_used' :  1
+       }
+   },
+   {'$sort' :
+       {
+           'number_of_times_used' :  -1
+       }
+   },
+   {'$limit' : 3}
+] )
+
+#----------------------
+
+8. Find the restaurant with the lowest rated transactions in January of 2020
+
+db.transaction.aggregate( [
+   {'$match' :
+       {'date_time' : {'$regex' : '2020-01' , '$options' : 'i'}}
+   },
+   {'$group' :
+       {
+           '_id' : '$restaurant.name',
+           'average_ratiing' : {'$avg' : "$rating"}
+       }
+   },
+   {'$project' :
+       {
+           '_id' : 0,
+           'restaurant_name' : '$_id',
+           'average_ratiing' :  1
+       }
+   },
+   {'$sort' :
+       {
+           'average_ratiing' :  1
+       }
+   },
+   {'$limit' : 1}
+] )
+
+#----------------------
+
+9. Find the 5 most popular food items among all the restaurants
+
+db.transaction.aggregate( [
+   {'$unwind' : '$food_items'},
+   {'$group' :
+       {
+           '_id' : '$food_items.name',
+           'number_of_quantities_sold' : {'$sum' : '$food_items.quantity'}
+       }
+   },
+   {'$project' :
+       {
+           '_id' : 0,
+           'food_item' : '$_id',
+           'number_of_quantities_sold' :  1
+       }
+   },
+   {'$sort' :
+       {
+           'number_of_quantities_sold' :  -1
+       }
+   },
+   {'$limit' : 5}
+] )

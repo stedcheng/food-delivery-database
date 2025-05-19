@@ -1,0 +1,75 @@
+[{"restaurant_id" : 1,
+"name" : "Kaulayaw",
+"cuisine" :"Filipino",
+"menu" : [
+	{"name" : "Kare-kare", "price" : 199},
+	{"name" : "Bulalo", "price" : 169},
+	{"name" : "Pancit Malabon", "price" : 159},
+	{"name" : "Lechon Kawali", "price" : 329},
+	{"name" : "Halo-halo", "price" : 69}
+],
+"address" : {
+	"restaurant_address_id": 1,
+	"city": "Mandaluyong",
+	"street": "Browning"
+}},
+{"restaurant_id" : 2,
+"name" : "Golden Chan",
+"cuisine" :"Chinese",
+"menu" : [
+	{"name" : "Pork Siomai", "price" : 150},
+	{"name" : "Beef Spareribs", "price" : 200},
+	{"name" : "Sweet and Spicy Fish", "price" : 150},
+	{"name" : "Egg Drop Soup", "price" : 70},
+	{"name" : "Chow Mein", "price" : 90}
+],
+"address" : {
+	"restaurant_address_id": 2,
+	"city": "Malabon",
+	"street": "Sycamore"
+}},
+{"restaurant_id" : 3,
+"name" : "Thursday's",
+"cuisine" :"American",
+"menu" : [
+	{"name" : "Cheeseburger Sliders", "price" : 185},
+	{"name" : "Buffalo Wings", "price" : 140},
+	{"name" : "Mac n' Cheese", "price" : 90},
+	{"name" : "Calamari", "price" : 105},
+	{"name" : "Steak and Fries", "price" : 185}
+],
+"address" : {
+	"restaurant_address_id": 3,
+	"city": "Muntinlupa",
+	"street": "Riverside"
+}},
+{"restaurant_id" : 4,
+"name" : "Godimento",
+"cuisine" :"Italian",
+"menu" : [
+	{"name" : "Pizza Margherita", "price" : 350},
+	{"name" : "Chicken Parmigiano", "price" : 240},
+	{"name" : "Cannoli", "price" : 105},
+	{"name" : "Caesar Salad", "price" : 140},
+	{"name" : "Carbonara", "price" : 140}
+],
+"address" : {
+	"restaurant_address_id": 4,
+	"city": "Quezon City",
+	"street": "Clyde Gallagher"
+}},
+{"restaurant_id" : 5,
+"name" : "Meokgi",
+"cuisine" :"Korean",
+"menu" : [
+	{"name" : "Tteokbokki", "price" : 129},
+	{"name" : "Blackbean Noodles", "price" : 135},
+	{"name" : "Spiced Pork Belly", "price" : 159},
+	{"name" : "Tofu Jjigae", "price" : 175},
+	{"name" : "Ramyeon", "price" : 89}
+],
+"address" : {
+	"restaurant_address_id": 5,
+	"city": "Pasay",
+	"street": "Stephen"
+}}]	
